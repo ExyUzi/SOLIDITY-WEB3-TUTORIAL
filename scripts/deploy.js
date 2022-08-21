@@ -7,24 +7,16 @@ const hre = require("hardhat");
 
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
+  // Nous allons vouloir déployer notre contract nommé TwitterNFT
+  const getMyContract = await hre.ethers.getContractFactory("TwitterNFT");
+  // Puis le déployer avec notre constructeur qui est notre base URI
+  const deployMyContract = await getMyContract.deploy("https://gateway.pinata.cloud/ipfs/QmZKnEaehsYUCvyKhdSjWwWryAMJQQCo7w1qpY8BZT8cHn/");
 
-  // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("TwitterNFT");
-  const greeter = await Greeter.deploy("https://gateway.pinata.cloud/ipfs/Qmcs4qCM3Ka4koGt52cLhNZVL8qiySU92vZajfr1VWkuop/");
+  await deployMyContract.deployed();
 
-  await greeter.deployed();
-
-  console.log("Greeter deployed to:", greeter.address);
+  console.log("Contract deployed to:", deployMyContract.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main()
   .then(() => process.exit(0))
   .catch((error) => {
