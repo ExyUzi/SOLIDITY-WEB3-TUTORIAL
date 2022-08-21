@@ -38,7 +38,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     artifacts: "./src/artifacts"
     },
     networks: {
-      polygontest: {
+      rinkeby: {
           url: URLINFURA,
           accounts: [privateKey]
       }

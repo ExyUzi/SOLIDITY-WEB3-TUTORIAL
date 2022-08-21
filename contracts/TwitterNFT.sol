@@ -40,10 +40,10 @@ contract TwitterNFT is Ownable, ERC721A, ReentrancyGuard {
         require(price != 0, "Price is 0"); // il faut que le prix d'un NFT sois différent de 0
         require(
             amountNFTsperWallet[msg.sender] + _quantity <= 3,
-            "You can only get 3 NFT on the Whitelist Sale"
+            "Maximum 3 NFT par wallet"
         ); // Que l'address qui mint ai moins de 3 NFT
-        require(totalSupply() + _quantity <= MAX_SUPPLY, "Max supply exceeded"); // Que l'addition totalSupply() (supply actuelle) + la quantité que l'utilisateur veut mint ne dépasse pas
-        require(msg.value >= price * _quantity, "Not enought funds"); // Il faut que l'on envoie le nombre d'eth requis (nftPrice * la quantité d'NFT que l'on veux mint)
+        require(totalSupply() + _quantity <= MAX_SUPPLY, "Vous mintez plus d'NFT que la max supply"); // Que l'addition totalSupply() (supply actuelle) + la quantité que l'utilisateur veut mint ne dépasse pas
+        require(msg.value >= price * _quantity, "Vous n'avez pas assez d'ETH"); // Il faut que l'on envoie le nombre d'eth requis (nftPrice * la quantité d'NFT que l'on veux mint)
 
         // Si on passe tout ces require et que tout est OK :
         amountNFTsperWallet[msg.sender] += _quantity; // on ajoute au mapping le nombre d'NFT que cet utilisateur à mint
@@ -63,7 +63,7 @@ contract TwitterNFT is Ownable, ERC721A, ReentrancyGuard {
         override
         returns (string memory)
     {
-        require(_exists(_tokenId), "URI query for nonexistent token"); // Il faut que le token existe
+        require(_exists(_tokenId), "Le token n'existe pas encore"); // Il faut que le token existe
 
         return string(abi.encodePacked(baseURI, _tokenId.toString(), ".json")); // Nous allons retourner : baseURI+tokenID+.json
     }
