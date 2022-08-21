@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { ethers } from "ethers";
 
 function App() {
+
+  const [account, setAccount] = useState([]);
+  const [error, setError] = useState('');
+
+  async function connect() {
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const { chainId } = await provider.getNetwork();
+      if (chainId == 43114) {
+        let accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        }); // On viens récupérer les différents comptes qu'il possède
+        setAccount(accounts);
+      } else {
+        setError("Invalid network, switch to Avalanche and try again");
+      }
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        error ?
+          <h4>{error}</h4>
+          :
+          null
+      }
+      {account.length > 0 ? (
+        <h1>You are connected {account[0]}</h1>
+      ) : (
+        <button onClick={() => connect()}>Connect via Metamask</button>
+      )}
     </div>
   );
 }
