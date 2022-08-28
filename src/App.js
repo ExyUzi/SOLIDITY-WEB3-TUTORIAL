@@ -11,11 +11,12 @@ function App() {
 
   const [account, setAccount] = useState([]);
   const [error, setError] = useState('');
-  const [price, setPrice] = useState()
-  const [contractError, setContractError] = useState()
-  const [mintNumber, setMintNumber] = useState()
+  const [price, setPrice] = useState();
+  const [contractError, setContractError] = useState();
+  const [mintNumber, setMintNumber] = useState();
 
-  const [totalSupply, setTotalSupply] = useState()
+  const [totalSupply, setTotalSupply] = useState();
+  
   useEffect(() => {
     getPrice();
     getTotalSupply();
