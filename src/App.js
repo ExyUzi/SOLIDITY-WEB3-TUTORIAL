@@ -16,7 +16,7 @@ function App() {
   const [mintNumber, setMintNumber] = useState();
 
   const [totalSupply, setTotalSupply] = useState();
-  
+
   useEffect(() => {
     getPrice();
     getTotalSupply();
